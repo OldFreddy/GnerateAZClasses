@@ -42,6 +42,9 @@
                         <goals>
                             <goal>genFromAToZChar</goal>
                         </goals>
+                        <configuration>
+                            <myAdd>Hello</myAdd>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

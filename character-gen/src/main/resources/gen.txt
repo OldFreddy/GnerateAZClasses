@@ -8,7 +8,7 @@ public class ${className} implements CharApi {
 
     @Override
     public void printMe(){
-    System.out.println(getClass().getSimpleName() + ${someAdd});
+    System.out.println(getClass().getSimpleName() + "${someAdd}");
     }
 }
 

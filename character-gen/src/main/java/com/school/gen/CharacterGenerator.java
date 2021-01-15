@@ -24,7 +24,7 @@ public class CharacterGenerator extends AbstractMojo {
     @Parameter(defaultValue = "${project}", readonly = true)
     private MavenProject mavenProject;
 
-    @Parameter
+    @Parameter(required = true)
     private String myAdd;
 
 
@@ -35,18 +35,24 @@ public class CharacterGenerator extends AbstractMojo {
             String template = IOUtils.toString(CharacterGenerator.class.getResourceAsStream("/gen.txt"),
                     Charset.defaultCharset());
 
+            File directory = new File(pathToGenDir, "com/school");
+            FileUtils.forceMkdir(directory);
+
             for (char c = 'A'; c <= 'Z'; c++) {
                 String className = String.valueOf(c);
-                String goalClass = template.replace("${className}", className);
+                String goalClass = template
+                        .replace("${className}", className)
+                        .replace("${someAdd}", myAdd);
 
-                File directory = new File(pathToGenDir, "com/school");
-                FileUtils.forceMkdir(directory);
 
-                File javaClass = new File(directory, className + ".java" );
-                FileUtils.write(javaClass, goalClass, Charset.defaultCharset());
 
-                mavenProject.addCompileSourceRoot(directory.toString());
+
+                FileUtils.write(new File(directory, className + ".java" ), goalClass, Charset.defaultCharset());
+
+
             }
+            mavenProject.addCompileSourceRoot(directory.toString());
+
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
